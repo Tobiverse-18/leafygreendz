@@ -1,0 +1,267 @@
+.founder {
+  width: 100%;
+  border-top: 1px solid var(--color-border);
+}
+
+.founder__container {
+  width: min(100% - 48px, 1240px);
+  margin: 0 auto;
+
+  padding: 30px 0 120px;
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.founder__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid var(--color-border);
+}
+
+.founder__eyebrow,
+.founder__number {
+  color: var(--color-text-muted);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+}
+
+.founder__eyebrow {
+  color: var(--color-primary);
+}
+
+/* ========================================
+   CONTENT
+   ======================================== */
+
+.founder__content {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
+  gap: 96px;
+
+  padding-top: 58px;
+}
+
+/* ========================================
+   IMAGE
+   ======================================== */
+
+.founder__image-wrapper {
+  position: relative;
+
+  border-radius: 30px;
+  width: 100%;
+  max-width: 500px;
+
+  overflow: hidden;
+
+  background: var(--color-surface);
+}
+
+.founder__image {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+
+  filter: saturate(0.9);
+
+  transition:
+    transform var(--transition-base),
+    filter var(--transition-base);
+}
+
+.founder__image-wrapper:hover .founder__image {
+  transform: scale(1.015);
+  filter: saturate(1);
+}
+
+.founder__image-label {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  color: #ffffff;
+
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* ========================================
+   DETAILS
+   ======================================== */
+
+.founder__details {
+  max-width: 570px;
+  padding-top: 8px;
+}
+
+.founder__role {
+  color: var(--color-primary);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.founder__title {
+  margin-top: 22px;
+
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(48px, 5.2vw, 72px);
+  font-weight: 500;
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+}
+
+.founder__title span {
+  display: block;
+  color: var(--color-primary);
+}
+
+.founder__text {
+  max-width: 500px;
+  margin-top: 24px;
+
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+.founder__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: 34px;
+  padding-bottom: 7px;
+
+  color: var(--color-text);
+  border-bottom: 2px solid var(--color-primary);
+
+  font-size: 12px;
+  font-weight: 600;
+
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    gap var(--transition-fast);
+}
+
+.founder__link:hover {
+  gap: 14px;
+
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+/* ========================================
+   TABLET
+   ======================================== */
+
+@media (max-width: 900px) {
+  .founder__container {
+    padding: 25px 0 96px;
+  }
+
+  .founder__content {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+    gap: 48px;
+  }
+
+  .founder__title {
+    font-size: clamp(42px, 6vw, 60px);
+  }
+
+  .founder__text {
+    font-size: 13px;
+  }
+}
+
+/* ========================================
+   MOBILE
+   ======================================== */
+
+@media (max-width: 700px) {
+  .founder__container {
+    width: min(100% - 32px, 1240px);
+
+    padding: 25px 0 72px;
+  }
+
+  .founder__content {
+    grid-template-columns: 1fr;
+    gap: 42px;
+
+    padding-top: 38px;
+  }
+
+  .founder__image-wrapper {
+    max-width: 100%;
+  }
+
+  .founder__image {
+    aspect-ratio: 4 / 4.7;
+  }
+
+  .founder__details {
+    padding-top: 0;
+  }
+
+  .founder__title {
+    margin-top: 18px;
+
+    font-size: clamp(44px, 13vw, 64px);
+  }
+
+  .founder__text {
+    margin-top: 18px;
+
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  .founder__link {
+    margin-top: 28px;
+  }
+}
+
+/* ========================================
+   SMALL PHONES
+   ======================================== */
+
+@media (max-width: 380px) {
+  .founder__container {
+    width: min(100% - 24px, 1240px);
+  }
+
+  .founder__title {
+    font-size: 42px;
+  }
+
+  .founder__image-label {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+
+    font-size: 7px;
+  }
+}

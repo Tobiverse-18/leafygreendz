@@ -1,0 +1,240 @@
+.brand-process {
+  width: 100%;
+  border-top: 1px solid var(--color-border);
+}
+
+.brand-process__container {
+  width: min(100% - 48px, 1240px);
+  margin: 0 auto;
+
+  padding: 30px 0 120px;
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.brand-process__header {
+  max-width: 720px;
+}
+
+.brand-process__eyebrow {
+  margin-bottom: 18px;
+
+  color: var(--color-primary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+}
+
+.brand-process__title {
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(52px, 6vw, 82px);
+  font-weight: 500;
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+}
+
+.brand-process__title span {
+  display: block;
+  color: var(--color-primary);
+}
+
+/* ========================================
+   GRID
+   ======================================== */
+
+.brand-process__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+
+  margin-top: 64px;
+}
+
+.brand-process__card {
+  position: relative;
+
+  border-radius: 20px;
+
+  min-height: 240px;
+
+  padding: 32px;
+
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+
+  transition:
+    transform var(--transition-base),
+    border-color var(--transition-fast);
+}
+
+.brand-process__card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-primary);
+}
+
+.brand-process__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.brand-process__card h3 {
+  margin-top: 32px;
+
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.brand-process__card p {
+  margin-top: 18px;
+
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* ========================================
+   STATEMENT
+   ======================================== */
+
+.brand-process__statement {
+  margin-top: 96px;
+  padding-top: 28px;
+
+  border-top: 1px solid var(--color-border);
+}
+
+.brand-process__statement p {
+  max-width: 820px;
+
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+}
+
+.brand-process__statement span {
+  display: block;
+  margin-top: 8px;
+
+  color: var(--color-primary);
+}
+
+/* ========================================
+   TABLET
+   ======================================== */
+
+@media (max-width: 900px) {
+  .brand-process__container {
+    padding: 25px 0 96px;
+  }
+
+  .brand-process__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-process__card {
+    min-height: auto;
+  }
+
+  .brand-process__statement {
+    margin-top: 72px;
+  }
+}
+
+/* ========================================
+   MOBILE
+   ======================================== */
+
+@media (max-width: 600px) {
+  .brand-process__container {
+    width: min(100% - 32px, 1240px);
+
+    padding: 25px 0 72px;
+  }
+
+  .brand-process__eyebrow {
+    margin-bottom: 14px;
+
+    font-size: 8px;
+  }
+
+  .brand-process__title {
+    font-size: clamp(44px, 13vw, 60px);
+  }
+
+  .brand-process__grid {
+    gap: 18px;
+
+    margin-top: 42px;
+  }
+
+  .brand-process__card {
+    padding: 26px;
+  }
+
+  .brand-process__number {
+    width: 40px;
+    height: 40px;
+
+    font-size: 10px;
+  }
+
+  .brand-process__card h3 {
+    margin-top: 26px;
+
+    font-size: 28px;
+  }
+
+  .brand-process__card p {
+    margin-top: 14px;
+
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  .brand-process__statement {
+    margin-top: 56px;
+    padding-top: 22px;
+  }
+
+  .brand-process__statement p {
+    font-size: 24px;
+  }
+}
+
+/* ========================================
+   SMALL PHONES
+   ======================================== */
+
+@media (max-width: 380px) {
+  .brand-process__container {
+    width: min(100% - 24px, 1240px);
+  }
+
+  .brand-process__title {
+    font-size: 40px;
+  }
+
+  .brand-process__statement p {
+    font-size: 22px;
+  }
+}

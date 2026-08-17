@@ -1,0 +1,86 @@
+:root {
+  /* ========================================
+     LEAFYGREENDZ — LIGHT THEME
+     ======================================== */
+
+  /* Brand */
+  --color-primary: #123c2a;
+  --color-primary-dark: #0a2419;
+  --color-accent: #6c927c;
+
+  /* Backgrounds */
+  --color-background: #f8f6f0;
+  --color-surface: #ffffff;
+
+  /* Typography */
+  --color-text: #171a18;
+  --color-text-muted: #68716c;
+
+  /* Borders */
+  --color-border: #dde3de;
+
+  /* ========================================
+     SPACING
+     ======================================== */
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 80px;
+  --space-10: 96px;
+
+  /* ========================================
+     BORDER RADIUS
+     ======================================== */
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  /* ========================================
+     SHADOWS
+     ======================================== */
+
+  --shadow-sm: 0 2px 8px rgba(18, 60, 42, 0.06);
+  --shadow-md: 0 8px 24px rgba(18, 60, 42, 0.08);
+
+  /* ========================================
+     TYPOGRAPHY
+     ======================================== */
+
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", Arial, sans-serif;
+
+  /* ========================================
+     TRANSITIONS
+     ======================================== */
+
+  --transition-fast: 200ms ease;
+  --transition-base: 300ms ease;
+}
+
+/* ========================================
+   LEAFYGREENDZ — DARK THEME
+   ======================================== */
+
+[data-theme="dark"] {
+  --color-primary: #6c927c;
+  --color-primary-dark: #a2bbaa;
+  --color-accent: #8eaf9b;
+
+  --color-background: #0a1410;
+  --color-surface: #122019;
+
+  --color-text: #f4f5f1;
+  --color-text-muted: #a8b2ac;
+
+  --color-border: #26382e;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+}

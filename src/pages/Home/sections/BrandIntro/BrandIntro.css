@@ -1,0 +1,240 @@
+.brand-intro {
+  width: 100%;
+  background: var(--color-background);
+  border-top: 1px solid var(--color-border);
+}
+
+.brand-intro__container {
+  width: min(100% - 48px, 1240px);
+  margin: 0 auto;
+
+  padding: 30px 0 120px;
+}
+
+/* ========================================
+   TOP
+   ======================================== */
+
+.brand-intro__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid var(--color-border);
+}
+
+.brand-intro__eyebrow,
+.brand-intro__number {
+  color: var(--color-text-muted);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+}
+
+.brand-intro__eyebrow {
+  color: var(--color-primary);
+}
+
+/* ========================================
+   CONTENT
+   ======================================== */
+
+.brand-intro__content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.75fr);
+  gap: 100px;
+
+  padding-top: 58px;
+}
+
+.brand-intro__title {
+  max-width: 700px;
+
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(58px, 7vw, 94px);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+}
+
+.brand-intro__title span {
+  display: block;
+  color: var(--color-primary);
+}
+
+.brand-intro__right {
+  max-width: 470px;
+  padding-top: 10px;
+}
+
+.brand-intro__lead {
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.brand-intro__text {
+  margin-top: 20px;
+  color: black;
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+[data-theme="dark"] .brand-intro__text {
+  color: #ffffff;
+}
+
+.brand-intro__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: 32px;
+  padding-bottom: 7px;
+
+  color: var(--color-text);
+  border-bottom: 2px solid var(--color-primary);;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    gap var(--transition-fast);
+}
+
+.brand-intro__link:hover {
+  gap: 14px;
+
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+/* ========================================
+   STATEMENT
+   ======================================== */
+
+
+
+.brand-intro__statement p {
+  max-width: 900px;
+
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.2vw, 44px);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+}
+
+.brand-intro__statement span {
+  color: var(--color-primary);
+}
+
+/* ========================================
+   TABLET
+   ======================================== */
+
+@media (max-width: 900px) {
+  .brand-intro__container {
+    padding: 25px 0 96px;
+  }
+
+  .brand-intro__content {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .brand-intro__right {
+    max-width: 620px;
+  }
+
+}
+
+/* ========================================
+   MOBILE
+   ======================================== */
+
+@media (max-width: 600px) {
+  .brand-intro__container {
+    width: min(100% - 32px, 1240px);
+
+    padding: 25px 0 72px;
+  }
+
+  .brand-intro__top {
+    padding-bottom: 14px;
+  }
+
+  .brand-intro__eyebrow,
+  .brand-intro__number {
+    font-size: 8px;
+  }
+
+  .brand-intro__content {
+    gap: 34px;
+    padding-top: 38px;
+  }
+
+  .brand-intro__title {
+    font-size: clamp(48px, 14vw, 68px);
+  }
+
+  .brand-intro__right {
+    padding-top: 0;
+  }
+
+  .brand-intro__lead {
+    font-size: 25px;
+  }
+
+  .brand-intro__text {
+    margin-top: 16px;
+
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  .brand-intro__link {
+    margin-top: 26px;
+  }
+
+  .brand-intro__statement {
+    margin-top: 64px;
+    padding-top: 22px;
+  }
+
+  .brand-intro__statement p {
+    font-size: 25px;
+    line-height: 1.3;
+  }
+}
+
+/* ========================================
+   SMALL PHONES
+   ======================================== */
+
+@media (max-width: 380px) {
+  .brand-intro__container {
+    width: min(100% - 24px, 1240px);
+  }
+
+  .brand-intro__title {
+    font-size: 46px;
+  }
+
+  .brand-intro__lead {
+    font-size: 23px;
+  }
+
+  .brand-intro__statement p {
+    font-size: 22px;
+  }
+}

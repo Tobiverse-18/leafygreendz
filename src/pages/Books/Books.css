@@ -1,0 +1,16 @@
+/* ========================================
+   BOOKS PAGE
+   ======================================== */
+
+.books-page {
+  width: 100%;
+  min-height: 100vh;
+
+  background: var(--color-background);
+
+  color: var(--color-text);
+
+  transition:
+    background-color var(--transition-base),
+    color var(--transition-base);
+}
