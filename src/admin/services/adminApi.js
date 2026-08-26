@@ -1,5 +1,27 @@
 const API_BASE_URL =
-    `${import.meta.env.VITE_API_URL}/api`;
+  `${import.meta.env.VITE_API_URL}/api`;
+
+
+// ============================================================
+// HELPER — PARSE RESPONSE
+// ============================================================
+
+async function parseResponse(response) {
+
+  const contentType =
+    response.headers.get("content-type");
+
+  if (
+    contentType &&
+    contentType.includes("application/json")
+  ) {
+
+    return await response.json();
+
+  }
+
+  return null;
+}
 
 
 // ============================================================
@@ -12,26 +34,31 @@ async function getCsrfToken() {
     `${API_BASE_URL}/admin/auth/csrf/`,
     {
       method: "GET",
+
       credentials: "include",
+
+      headers: {
+        Accept: "application/json",
+      },
     }
   );
 
 
   const data =
-    await response.json();
+    await parseResponse(response);
 
 
   if (!response.ok) {
 
     throw new Error(
-      data.detail ||
+      data?.detail ||
       "Unable to obtain CSRF token."
     );
 
   }
 
 
-  if (!data.csrfToken) {
+  if (!data?.csrfToken) {
 
     throw new Error(
       "Django did not return a CSRF token."
@@ -79,6 +106,9 @@ export async function adminLogin(
           "Content-Type":
             "application/json",
 
+          Accept:
+            "application/json",
+
           "X-CSRFToken":
             csrfToken,
         },
@@ -92,7 +122,7 @@ export async function adminLogin(
 
 
   const data =
-    await response.json();
+    await parseResponse(response);
 
 
   console.log(
@@ -105,7 +135,7 @@ export async function adminLogin(
   if (!response.ok) {
 
     throw new Error(
-      data.detail ||
+      data?.detail ||
       "Login failed."
     );
 
@@ -122,24 +152,42 @@ export async function adminLogin(
 
 export async function getAdminDashboard() {
 
+  console.log(
+    "GETTING ADMIN DASHBOARD..."
+  );
+
+
   const response =
     await fetch(
       `${API_BASE_URL}/admin/dashboard/`,
       {
         method: "GET",
+
         credentials: "include",
+
+        headers: {
+          Accept:
+            "application/json",
+        },
       }
     );
 
 
   const data =
-    await response.json();
+    await parseResponse(response);
+
+
+  console.log(
+    "ADMIN DASHBOARD RESPONSE:",
+    response.status,
+    data
+  );
 
 
   if (!response.ok) {
 
     throw new Error(
-      data.detail ||
+      data?.detail ||
       "Failed to fetch admin dashboard."
     );
 
@@ -177,6 +225,9 @@ export async function adminLogout() {
           "Content-Type":
             "application/json",
 
+          Accept:
+            "application/json",
+
           "X-CSRFToken":
             csrfToken,
         },
@@ -185,7 +236,7 @@ export async function adminLogout() {
 
 
   const data =
-    await response.json();
+    await parseResponse(response);
 
 
   console.log(
@@ -198,7 +249,7 @@ export async function adminLogout() {
   if (!response.ok) {
 
     throw new Error(
-      data.detail ||
+      data?.detail ||
       "Logout failed."
     );
 
@@ -220,19 +271,25 @@ export async function getAdminBooks() {
       `${API_BASE_URL}/books/`,
       {
         method: "GET",
+
         credentials: "include",
+
+        headers: {
+          Accept:
+            "application/json",
+        },
       }
     );
 
 
   const data =
-    await response.json();
+    await parseResponse(response);
 
 
   if (!response.ok) {
 
     throw new Error(
-      data.detail ||
+      data?.detail ||
       "Failed to fetch books."
     );
 
@@ -241,7 +298,7 @@ export async function getAdminBooks() {
 
   return Array.isArray(data)
     ? data
-    : data.results || [];
+    : data?.results || [];
 }
 
 
@@ -266,6 +323,9 @@ export async function deleteAdminBook(
         credentials: "include",
 
         headers: {
+          Accept:
+            "application/json",
+
           "X-CSRFToken":
             csrfToken,
         },
@@ -275,22 +335,12 @@ export async function deleteAdminBook(
 
   if (!response.ok) {
 
-    let data = {};
-
-    try {
-
-      data =
-        await response.json();
-
-    } catch {
-
-      // Empty response
-
-    }
+    const data =
+      await parseResponse(response);
 
 
     throw new Error(
-      data.detail ||
+      data?.detail ||
       "Failed to delete book."
     );
 
@@ -312,19 +362,25 @@ export async function getAdminOrders() {
       `${API_BASE_URL}/orders/admin/`,
       {
         method: "GET",
+
         credentials: "include",
+
+        headers: {
+          Accept:
+            "application/json",
+        },
       }
     );
 
 
   const data =
-    await response.json();
+    await parseResponse(response);
 
 
   if (!response.ok) {
 
     throw new Error(
-      data.detail ||
+      data?.detail ||
       "Failed to fetch orders."
     );
 
@@ -333,7 +389,7 @@ export async function getAdminOrders() {
 
   return Array.isArray(data)
     ? data
-    : data.results || [];
+    : data?.results || [];
 }
 
 
@@ -348,19 +404,25 @@ export async function getAdminMessages() {
       `${API_BASE_URL}/contact/admin/`,
       {
         method: "GET",
+
         credentials: "include",
+
+        headers: {
+          Accept:
+            "application/json",
+        },
       }
     );
 
 
   const data =
-    await response.json();
+    await parseResponse(response);
 
 
   if (!response.ok) {
 
     throw new Error(
-      data.detail ||
+      data?.detail ||
       "Failed to fetch messages."
     );
 
@@ -369,7 +431,7 @@ export async function getAdminMessages() {
 
   return Array.isArray(data)
     ? data
-    : data.results || [];
+    : data?.results || [];
 }
 
 
@@ -386,19 +448,25 @@ export async function getAdminMessage(
       `${API_BASE_URL}/contact/admin/${messageId}/`,
       {
         method: "GET",
+
         credentials: "include",
+
+        headers: {
+          Accept:
+            "application/json",
+        },
       }
     );
 
 
   const data =
-    await response.json();
+    await parseResponse(response);
 
 
   if (!response.ok) {
 
     throw new Error(
-      data.detail ||
+      data?.detail ||
       "Failed to fetch message."
     );
 
@@ -434,6 +502,9 @@ export async function updateAdminMessage(
           "Content-Type":
             "application/json",
 
+          Accept:
+            "application/json",
+
           "X-CSRFToken":
             csrfToken,
         },
@@ -445,13 +516,13 @@ export async function updateAdminMessage(
 
 
   const data =
-    await response.json();
+    await parseResponse(response);
 
 
   if (!response.ok) {
 
     throw new Error(
-      data.detail ||
+      data?.detail ||
       "Failed to update message."
     );
 
@@ -483,6 +554,9 @@ export async function deleteAdminMessage(
         credentials: "include",
 
         headers: {
+          Accept:
+            "application/json",
+
           "X-CSRFToken":
             csrfToken,
         },
@@ -492,22 +566,12 @@ export async function deleteAdminMessage(
 
   if (!response.ok) {
 
-    let data = {};
-
-    try {
-
-      data =
-        await response.json();
-
-    } catch {
-
-      // Empty response
-
-    }
+    const data =
+      await parseResponse(response);
 
 
     throw new Error(
-      data.detail ||
+      data?.detail ||
       "Failed to delete message."
     );
 
