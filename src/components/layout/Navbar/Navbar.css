@@ -391,3 +391,36 @@
     padding: 13px 0;
   }
 }
+
+/* ========================================
+   CART COUNT
+   ======================================== */
+
+.navbar__cart-button {
+  position: relative;
+}
+
+.navbar__cart-count {
+  position: absolute;
+
+  top: 2px;
+  right: 1px;
+
+  min-width: 15px;
+  height: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 3px;
+
+  color: var(--color-background);
+  background: var(--color-primary);
+
+  border-radius: 999px;
+
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+}

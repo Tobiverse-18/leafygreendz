@@ -1,0 +1,319 @@
+.admin-header {
+
+  min-height: 76px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 0 32px;
+
+  background: #fff;
+
+  border-bottom: 1px solid #e7e7e3;
+
+}
+
+
+/* ============================================================
+   LEFT
+============================================================ */
+
+.admin-header__left {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+}
+
+
+.admin-header__left p {
+
+  margin: 0 0 4px;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.6px;
+
+  color: #999;
+
+}
+
+
+.admin-header__left h1 {
+
+  margin: 0;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  letter-spacing: .5px;
+
+}
+
+
+/* ============================================================
+   RIGHT
+============================================================ */
+
+.admin-header__right {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+}
+
+
+/* ============================================================
+   NOTIFICATION
+============================================================ */
+
+.admin-header__notification {
+
+  position: relative;
+
+  width: 36px;
+
+  height: 36px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border: 1px solid #e5e5e1;
+
+  border-radius: 7px;
+
+  background: #fff;
+
+  color: #222;
+
+  cursor: pointer;
+
+}
+
+
+.admin-header__notification:hover {
+
+  background: #f6f6f3;
+
+}
+
+
+.admin-header__notification span {
+
+  position: absolute;
+
+  top: 7px;
+
+  right: 7px;
+
+  width: 5px;
+
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: #111;
+
+}
+
+
+/* ============================================================
+   VIEW WEBSITE
+============================================================ */
+
+.admin-header__website {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 9px 13px;
+
+  border: 1px solid #deded9;
+
+  border-radius: 7px;
+
+  background: #fff;
+
+  color: #222;
+
+  text-decoration: none;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  transition:
+    background .2s ease,
+    border-color .2s ease;
+
+}
+
+
+.admin-header__website:hover {
+
+  background: #f6f6f3;
+
+  border-color: #cfcfca;
+
+}
+
+
+/* ============================================================
+   HAMBURGER
+============================================================ */
+
+.admin-header__menu {
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 40px;
+
+  height: 40px;
+
+  padding: 0;
+
+  border: 1px solid #e5e5e2;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #171717;
+
+  cursor: pointer;
+
+  transition:
+    background .2s ease,
+    border-color .2s ease;
+
+}
+
+
+.admin-header__menu:hover {
+
+  background: #f5f5f2;
+
+  border-color: #d8d8d4;
+
+}
+
+
+/* ============================================================
+   TABLET / MOBILE
+============================================================ */
+
+@media (max-width: 900px) {
+
+  .admin-header {
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    padding: 0 18px;
+
+    z-index: 900;
+
+  }
+
+
+  .admin-header__left p {
+
+    display: none;
+
+  }
+
+
+  .admin-header__left h1 {
+
+    font-size: 14px;
+
+  }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 768px) {
+
+  .admin-header__menu {
+
+    display: flex;
+
+  }
+
+
+  .admin-header__website {
+
+    display: none;
+
+  }
+
+
+  .admin-header__right {
+
+    gap: 10px;
+
+  }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 480px) {
+
+  .admin-header {
+
+    padding: 14px 16px;
+
+  }
+
+
+  .admin-header__left h1 {
+
+    font-size: 16px;
+
+  }
+
+
+  .admin-header__notification {
+
+    width: 36px;
+
+    height: 36px;
+
+  }
+
+}

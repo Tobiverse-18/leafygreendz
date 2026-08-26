@@ -9,10 +9,13 @@ import {
   Sun,
   Moon,
 } from "lucide-react";
+import { useCart } from "../../../context/CartContext";
 import "./Navbar.css";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const { cartCount } = useCart();
 
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.getItem("leafygreendz-theme") === "dark";
@@ -21,12 +24,21 @@ function Navbar() {
   useEffect(() => {
     const theme = isDarkMode ? "dark" : "light";
 
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("leafygreendz-theme", theme);
+    document.documentElement.setAttribute(
+      "data-theme",
+      theme
+    );
+
+    localStorage.setItem(
+      "leafygreendz-theme",
+      theme
+    );
   }, [isDarkMode]);
 
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+    document.body.style.overflow = isMenuOpen
+      ? "hidden"
+      : "";
 
     return () => {
       document.body.style.overflow = "";
@@ -49,7 +61,10 @@ function Navbar() {
     <header className="navbar">
       <div className="navbar__container">
 
-        {/* Logo */}
+        {/* ========================================
+            LOGO
+            ======================================== */}
+
         <Link
           to="/"
           className="navbar__logo"
@@ -58,7 +73,11 @@ function Navbar() {
           LEAFYGREENDZ
         </Link>
 
-        {/* Desktop Navigation */}
+
+        {/* ========================================
+            DESKTOP NAVIGATION
+            ======================================== */}
+
         <nav
           className="navbar__desktop-nav"
           aria-label="Main navigation"
@@ -80,37 +99,67 @@ function Navbar() {
           </NavLink>
         </nav>
 
-        {/* Navbar Actions */}
+
+        {/* ========================================
+            NAVBAR ACTIONS
+            ======================================== */}
+
         <div className="navbar__actions">
 
           {/* Search */}
+
           <button
             type="button"
             className="navbar__icon-button"
             aria-label="Search"
           >
-            <Search size={19} strokeWidth={1.7} />
+            <Search
+              size={19}
+              strokeWidth={1.7}
+            />
           </button>
 
+
           {/* Cart */}
+
           <Link
             to="/cart"
-            className="navbar__icon-button"
-            aria-label="Shopping cart"
+            className="navbar__icon-button navbar__cart-button"
+            aria-label={
+              cartCount > 0
+                ? `Shopping cart, ${cartCount} items`
+                : "Shopping cart"
+            }
           >
-            <ShoppingBag size={19} strokeWidth={1.7} />
+            <ShoppingBag
+              size={19}
+              strokeWidth={1.7}
+            />
+
+            {cartCount > 0 && (
+              <span className="navbar__cart-count">
+                {cartCount}
+              </span>
+            )}
           </Link>
 
+
           {/* Account */}
+
           <Link
             to="/account"
             className="navbar__icon-button"
             aria-label="Account"
           >
-            <UserRound size={19} strokeWidth={1.7} />
+            <UserRound
+              size={19}
+              strokeWidth={1.7}
+            />
           </Link>
 
-          {/* Desktop Theme */}
+
+          {/* Theme Toggle */}
+
           <button
             type="button"
             className="navbar__icon-button navbar__theme-toggle"
@@ -122,13 +171,21 @@ function Navbar() {
             }
           >
             {isDarkMode ? (
-              <Sun size={19} strokeWidth={1.7} />
+              <Sun
+                size={19}
+                strokeWidth={1.7}
+              />
             ) : (
-              <Moon size={19} strokeWidth={1.7} />
+              <Moon
+                size={19}
+                strokeWidth={1.7}
+              />
             )}
           </button>
 
+
           {/* Hamburger */}
+
           <button
             type="button"
             className="navbar__menu-toggle"
@@ -141,16 +198,26 @@ function Navbar() {
             aria-expanded={isMenuOpen}
           >
             {isMenuOpen ? (
-              <X size={23} strokeWidth={1.7} />
+              <X
+                size={23}
+                strokeWidth={1.7}
+              />
             ) : (
-              <Menu size={23} strokeWidth={1.7} />
+              <Menu
+                size={23}
+                strokeWidth={1.7}
+              />
             )}
           </button>
 
         </div>
       </div>
 
-      {/* Mobile Menu */}
+
+      {/* ========================================
+          MOBILE MENU
+          ======================================== */}
+
       <div
         className={`navbar__mobile-menu ${
           isMenuOpen
@@ -158,6 +225,7 @@ function Navbar() {
             : ""
         }`}
       >
+
         <nav
           className="navbar__mobile-nav"
           aria-label="Mobile navigation"
@@ -192,9 +260,17 @@ function Navbar() {
           </NavLink>
         </nav>
 
+
         <div className="navbar__mobile-divider" />
 
+
+        {/* ========================================
+            MOBILE SECONDARY LINKS
+            ======================================== */}
+
         <div className="navbar__mobile-secondary">
+
+          {/* Account */}
 
           <Link
             to="/account"
@@ -204,8 +280,12 @@ function Navbar() {
               size={18}
               strokeWidth={1.7}
             />
+
             Account
           </Link>
+
+
+          {/* Cart */}
 
           <Link
             to="/cart"
@@ -215,10 +295,19 @@ function Navbar() {
               size={18}
               strokeWidth={1.7}
             />
+
             Cart
+
+            {cartCount > 0 && (
+              <span className="navbar__mobile-cart-count">
+                {cartCount}
+              </span>
+            )}
           </Link>
 
-          {/* Mobile Theme */}
+
+          {/* Theme */}
+
           <button
             type="button"
             className="navbar__mobile-theme"

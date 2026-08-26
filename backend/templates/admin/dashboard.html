@@ -1,0 +1,653 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+LEAFYGREENDZ Dashboard
+{% endblock %}
+
+
+{% block branding %}
+
+<h1 id="site-name">
+    <a href="{% url 'admin-dashboard' %}">
+        LEAFYGREENDZ
+    </a>
+</h1>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="leafy-dashboard">
+
+    <!-- HEADER -->
+
+    <div class="dashboard-header">
+
+        <div>
+
+            <p class="dashboard-eyebrow">
+                ADMIN DASHBOARD
+            </p>
+
+            <h1>
+                Welcome back.
+            </h1>
+
+            <p>
+                Here's what's happening with
+                LEAFYGREENDZ today.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- STAT CARDS -->
+
+    <div class="dashboard-stats">
+
+
+        <!-- REVENUE -->
+
+        <div class="stat-card">
+
+            <span>
+                TOTAL REVENUE
+            </span>
+
+            <strong>
+                ₦{{ revenue|floatformat:2 }}
+            </strong>
+
+            <small>
+                From paid orders
+            </small>
+
+        </div>
+
+
+        <!-- PAID ORDERS -->
+
+        <div class="stat-card">
+
+            <span>
+                PAID ORDERS
+            </span>
+
+            <strong>
+                {{ paid_orders }}
+            </strong>
+
+            <small>
+                Successfully completed
+            </small>
+
+        </div>
+
+
+        <!-- PENDING -->
+
+        <div class="stat-card">
+
+            <span>
+                PENDING ORDERS
+            </span>
+
+            <strong>
+                {{ pending_orders }}
+            </strong>
+
+            <small>
+                Awaiting payment
+            </small>
+
+        </div>
+
+
+        <!-- MESSAGES -->
+
+        <div class="stat-card">
+
+            <span>
+                NEW MESSAGES
+            </span>
+
+            <strong>
+                {{ new_messages }}
+            </strong>
+
+            <small>
+                {{ total_messages }} total messages
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- SECONDARY STATS -->
+
+    <div class="dashboard-secondary">
+
+        <div>
+
+            <span>
+                TOTAL BOOKS
+            </span>
+
+            <strong>
+                {{ total_books }}
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                FAILED ORDERS
+            </span>
+
+            <strong>
+                {{ failed_orders }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN GRID -->
+
+    <div class="dashboard-grid">
+
+
+        <!-- RECENT ORDERS -->
+
+        <section class="dashboard-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <p>
+                        SALES
+                    </p>
+
+                    <h2>
+                        Recent Orders
+                    </h2>
+
+                </div>
+
+                <a href="/admin/orders/order/">
+                    View all
+                </a>
+
+            </div>
+
+
+            <div class="dashboard-table">
+
+                {% for order in recent_orders %}
+
+                    <div class="dashboard-row">
+
+                        <div>
+
+                            <strong>
+                                {{ order.order_number }}
+                            </strong>
+
+                            <span>
+                                {{ order.customer_email }}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                ₦{{ order.total|floatformat:2 }}
+                            </strong>
+
+                            <span class="status status--{{ order.status }}">
+                                {{ order.get_status_display }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="dashboard-empty">
+                        No orders yet.
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTACT MESSAGES -->
+
+        <section class="dashboard-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <p>
+                        COMMUNICATION
+                    </p>
+
+                    <h2>
+                        Recent Messages
+                    </h2>
+
+                </div>
+
+                <a href="/admin/contact/contactmessage/">
+                    View all
+                </a>
+
+            </div>
+
+
+            <div class="dashboard-table">
+
+                {% for message in recent_messages %}
+
+                    <div class="dashboard-row">
+
+                        <div>
+
+                            <strong>
+                                {{ message.name }}
+                            </strong>
+
+                            <span>
+                                {{ message.subject }}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="status status--{{ message.status }}">
+                                {{ message.get_status_display }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="dashboard-empty">
+                        No messages yet.
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+
+    <section class="quick-actions">
+
+        <p>
+            QUICK ACTIONS
+        </p>
+
+
+        <div>
+
+            <a href="/admin/books/book/">
+                Manage Books
+            </a>
+
+            <a href="/admin/orders/order/">
+                Manage Orders
+            </a>
+
+            <a href="/admin/contact/contactmessage/">
+                Contact Messages
+            </a>
+
+            <a href="/admin/books/book/add/">
+                Add New Book
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}
+
+
+{% block extrastyle %}
+
+<style>
+
+    .leafy-dashboard {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+
+    .dashboard-header {
+        margin-bottom: 30px;
+    }
+
+
+    .dashboard-eyebrow {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        opacity: .55;
+        margin-bottom: 8px;
+    }
+
+
+    .dashboard-header h1 {
+        font-size: 32px;
+        margin: 0 0 8px;
+    }
+
+
+    .dashboard-header p:last-child {
+        opacity: .65;
+    }
+
+
+    .dashboard-stats {
+        display: grid;
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr));
+
+        gap: 18px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .stat-card {
+        background: var(--body-bg);
+        border: 1px solid var(--hairline-color);
+        border-radius: 12px;
+        padding: 24px;
+    }
+
+
+    .stat-card span,
+    .stat-card small {
+        display: block;
+    }
+
+
+    .stat-card span {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.4px;
+        opacity: .55;
+    }
+
+
+    .stat-card strong {
+        display: block;
+        font-size: 28px;
+        margin: 12px 0 6px;
+    }
+
+
+    .stat-card small {
+        opacity: .55;
+    }
+
+
+    .dashboard-secondary {
+        display: grid;
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 18px;
+
+        margin-bottom: 30px;
+    }
+
+
+    .dashboard-secondary > div {
+        border: 1px solid var(--hairline-color);
+        border-radius: 12px;
+        padding: 20px;
+    }
+
+
+    .dashboard-secondary span {
+        display: block;
+        font-size: 11px;
+        letter-spacing: 1.2px;
+        opacity: .55;
+    }
+
+
+    .dashboard-secondary strong {
+        display: block;
+        font-size: 24px;
+        margin-top: 8px;
+    }
+
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 20px;
+    }
+
+
+    .dashboard-panel {
+        border: 1px solid var(--hairline-color);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 22px;
+        border-bottom: 1px solid var(--hairline-color);
+    }
+
+
+    .panel-header p {
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        opacity: .5;
+        margin: 0 0 5px;
+    }
+
+
+    .panel-header h2 {
+        margin: 0;
+        font-size: 18px;
+    }
+
+
+    .panel-header a {
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+
+    .dashboard-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        padding: 18px 22px;
+        border-bottom: 1px solid var(--hairline-color);
+    }
+
+
+    .dashboard-row:last-child {
+        border-bottom: 0;
+    }
+
+
+    .dashboard-row strong,
+    .dashboard-row span {
+        display: block;
+    }
+
+
+    .dashboard-row strong {
+        font-size: 13px;
+    }
+
+
+    .dashboard-row div:last-child {
+        text-align: right;
+    }
+
+
+    .dashboard-row div > span:not(.status) {
+        font-size: 11px;
+        opacity: .55;
+        margin-top: 5px;
+    }
+
+
+    .status {
+        display: inline-block !important;
+        margin-top: 5px;
+        padding: 4px 8px;
+        border-radius: 20px;
+        font-size: 10px !important;
+        font-weight: 700;
+    }
+
+
+    .status--paid {
+        background: #dff5e5;
+        color: #176b35;
+    }
+
+
+    .status--pending {
+        background: #fff2cc;
+        color: #765b00;
+    }
+
+
+    .status--failed {
+        background: #ffe0e0;
+        color: #a00000;
+    }
+
+
+    .status--new {
+        background: #e5edff;
+        color: #234b9b;
+    }
+
+
+    .status--read {
+        background: #eeeeee;
+        color: #555555;
+    }
+
+
+    .status--replied {
+        background: #e1f5f2;
+        color: #14685f;
+    }
+
+
+    .dashboard-empty {
+        padding: 30px;
+        text-align: center;
+        opacity: .5;
+    }
+
+
+    .quick-actions {
+        margin-top: 20px;
+        padding: 24px;
+        border: 1px solid var(--hairline-color);
+        border-radius: 12px;
+    }
+
+
+    .quick-actions > p {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        opacity: .5;
+    }
+
+
+    .quick-actions > div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+
+    .quick-actions a {
+        padding: 10px 15px;
+        border: 1px solid var(--hairline-color);
+        border-radius: 7px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+
+    @media (max-width: 900px) {
+
+        .dashboard-stats {
+            grid-template-columns:
+                repeat(2, 1fr);
+        }
+
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+        .dashboard-stats {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-secondary {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+</style>
+
+{% endblock %}

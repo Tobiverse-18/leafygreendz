@@ -1,0 +1,231 @@
+/* ========================================
+   CART NOTIFICATION
+   ======================================== */
+
+.cart-notification {
+  position: fixed;
+
+  top: 92px;
+  right: 28px;
+
+  z-index: 2000;
+
+  width: min(380px, calc(100vw - 40px));
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 14px;
+
+  padding: 18px;
+
+  background: var(--color-background);
+
+  color: var(--color-text);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-sm);
+
+  box-shadow: var(--shadow-lg);
+
+  animation:
+    cart-notification-in
+    0.35s ease forwards;
+}
+
+
+/* ========================================
+   ICON
+   ======================================== */
+
+.cart-notification__icon {
+  flex-shrink: 0;
+
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+
+  background: var(--color-primary);
+
+  border-radius: 50%;
+}
+
+
+/* ========================================
+   CONTENT
+   ======================================== */
+
+.cart-notification__content {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  gap: 5px;
+}
+
+
+.cart-notification__content strong {
+  color: var(--color-text);
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+.cart-notification__content span {
+  max-width: 240px;
+
+  overflow: hidden;
+
+  color: var(--color-text-muted);
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   VIEW CART
+   ======================================== */
+
+.cart-notification__content a {
+  margin-top: 5px;
+
+  color: var(--color-primary);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  transition:
+    color var(--transition-fast);
+}
+
+
+.cart-notification__content a:hover {
+  color: var(--color-primary-dark);
+}
+
+
+/* ========================================
+   CLOSE BUTTON
+   ======================================== */
+
+.cart-notification__close {
+  flex-shrink: 0;
+
+  width: 28px;
+  height: 28px;
+
+  margin-left: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--color-text-muted);
+
+  background: transparent;
+
+  border: none;
+
+  border-radius: var(--radius-sm);
+
+  cursor: pointer;
+
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+
+.cart-notification__close:hover {
+  color: var(--color-text);
+
+  background: color-mix(
+    in srgb,
+    var(--color-primary) 8%,
+    transparent
+  );
+}
+
+
+/* ========================================
+   ANIMATION
+   ======================================== */
+
+@keyframes cart-notification-in {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-12px)
+      translateX(10px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      translateX(0);
+  }
+
+}
+
+
+/* ========================================
+   MOBILE
+   ======================================== */
+
+@media (max-width: 600px) {
+
+  .cart-notification {
+    top: 82px;
+    right: 20px;
+    left: 20px;
+
+    width: auto;
+
+    padding: 16px;
+  }
+
+  .cart-notification__content span {
+    max-width: calc(100vw - 150px);
+  }
+
+}
+
+
+/* ========================================
+   SMALL PHONES
+   ======================================== */
+
+@media (max-width: 420px) {
+
+  .cart-notification {
+    top: 78px;
+    right: 16px;
+    left: 16px;
+
+    width: auto;
+  }
+
+}

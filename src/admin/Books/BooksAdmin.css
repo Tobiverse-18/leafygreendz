@@ -1,0 +1,945 @@
+/* ============================================================
+   BOOKS ADMIN
+============================================================ */
+
+.books-admin {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 34px 36px 60px;
+  box-sizing: border-box;
+}
+
+
+/* ============================================================
+   PAGE HEADER
+============================================================ */
+
+.books-admin__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.books-admin__eyebrow {
+  margin: 0 0 8px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
+  color: #999;
+}
+
+.books-admin__header h2 {
+  margin: 0;
+  color: #151515;
+  font-size: 30px;
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+}
+
+.books-admin__description {
+  margin: 9px 0 0;
+  color: #858585;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+/* ============================================================
+   ADD BOOK BUTTON
+============================================================ */
+
+.books-admin__add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 17px;
+  border: 1px solid #111;
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.books-admin__add:hover {
+  background: #292929;
+  border-color: #292929;
+}
+
+.books-admin__add:active {
+  transform: translateY(1px);
+}
+
+
+/* ============================================================
+   ALERTS
+============================================================ */
+
+.books-admin__alert {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 46px;
+  margin-bottom: 18px;
+  padding: 0 14px;
+  border: 1px solid;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.books-admin__alert span {
+  flex: 1;
+}
+
+.books-admin__alert button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.books-admin__alert--success {
+  border-color: #d8e8dc;
+  background: #f5faf6;
+  color: #315b3a;
+}
+
+.books-admin__alert--success button:hover {
+  background: #e8f3ea;
+}
+
+.books-admin__alert--error {
+  border-color: #ead5d5;
+  background: #fcf6f6;
+  color: #8a3838;
+}
+
+.books-admin__alert--error button:hover {
+  background: #f5eaea;
+}
+
+
+/* ============================================================
+   TOOLBAR
+============================================================ */
+
+.books-admin__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+
+/* SEARCH */
+
+.books-admin__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: min(420px, 100%);
+  height: 42px;
+  padding: 0 13px;
+  gap: 9px;
+  border: 1px solid #deded9;
+  border-radius: 8px;
+  background: #fff;
+  color: #888;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.books-admin__search:focus-within {
+  border-color: #a9a9a3;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.035);
+}
+
+.books-admin__search input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #222;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.books-admin__search input::placeholder {
+  color: #a5a5a5;
+}
+
+.books-admin__search input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.books-admin__search-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  background: #f2f2ef;
+  color: #777;
+  cursor: pointer;
+}
+
+.books-admin__search-clear:hover {
+  background: #e9e9e5;
+  color: #222;
+}
+
+
+/* COUNT */
+
+.books-admin__count {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.books-admin__count span {
+  color: #999;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.books-admin__count strong {
+  min-width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  border: 1px solid #e3e3df;
+  border-radius: 7px;
+  background: #fff;
+  color: #222;
+  font-size: 12px;
+}
+
+
+/* ============================================================
+   TABLE PANEL
+============================================================ */
+
+.books-admin__panel {
+  overflow: visible;
+  border: 1px solid #e4e4df;
+  border-radius: 11px;
+  background: #fff;
+}
+
+
+/* ============================================================
+   TABLE HEADER
+============================================================ */
+
+.books-admin__table-header {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) 150px 140px 80px;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 20px;
+  border-bottom: 1px solid #e8e8e4;
+  background: #fafaf8;
+  border-radius: 11px 11px 0 0;
+}
+
+.books-admin__table-header span {
+  color: #999;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+
+/* ============================================================
+   BOOK ROWS
+============================================================ */
+
+.books-admin__rows {
+  width: 100%;
+}
+
+.books-admin__row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) 150px 140px 80px;
+  align-items: center;
+  min-height: 86px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #eeeeea;
+  transition: background 0.18s ease;
+}
+
+.books-admin__row:last-child {
+  border-bottom: 0;
+}
+
+.books-admin__row:hover {
+  background: #fcfcfa;
+}
+
+
+/* ============================================================
+   BOOK
+============================================================ */
+
+.books-admin__book {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.books-admin__cover,
+.books-admin__cover-placeholder {
+  width: 48px;
+  height: 62px;
+  flex-shrink: 0;
+  border-radius: 5px;
+}
+
+.books-admin__cover {
+  display: block;
+  object-fit: cover;
+  border: 1px solid #e5e5e1;
+  background: #f4f4f1;
+}
+
+.books-admin__cover-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e1e1dd;
+  background: #f4f4f1;
+  color: #999;
+}
+
+.books-admin__book-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.books-admin__book-info strong {
+  overflow: hidden;
+  color: #1d1d1d;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.books-admin__book-info span {
+  overflow: hidden;
+  color: #999;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   PRICE
+============================================================ */
+
+.books-admin__price {
+  color: #222;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+/* ============================================================
+   STATUS
+============================================================ */
+
+.books-admin__status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 25px;
+  padding: 0 9px;
+  border: 1px solid #e2e2de;
+  border-radius: 999px;
+  background: #f5f5f2;
+  color: #777;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.books-admin__status--published {
+  border-color: #d8e7dc;
+  background: #f3f8f4;
+  color: #426b4b;
+}
+
+
+/* ============================================================
+   ACTION CELL
+============================================================ */
+
+.books-admin__action-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.books-admin__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: #777;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.books-admin__actions:hover,
+.books-admin__actions[aria-expanded="true"] {
+  border-color: #e1e1dd;
+  background: #f5f5f2;
+  color: #222;
+}
+
+
+/* ============================================================
+   ACTION MENU
+============================================================ */
+
+.books-admin__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 50;
+  width: 155px;
+  padding: 5px;
+  border: 1px solid #e2e2de;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.09),
+    0 2px 7px rgba(0, 0, 0, 0.04);
+}
+
+.books-admin__menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 37px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #333;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+
+.books-admin__menu-item:hover {
+  background: #f5f5f2;
+}
+
+.books-admin__menu-item--danger {
+  color: #a33c3c;
+}
+
+.books-admin__menu-item--danger:hover {
+  background: #fcf3f3;
+}
+
+
+/* ============================================================
+   EMPTY STATE
+============================================================ */
+
+.books-admin__empty {
+  min-height: 330px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 45px 25px;
+  text-align: center;
+}
+
+.books-admin__empty-icon {
+  width: 62px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 17px;
+  border: 1px solid #e4e4df;
+  border-radius: 12px;
+  background: #f8f8f5;
+  color: #999;
+}
+
+.books-admin__empty h3 {
+  margin: 0;
+  color: #242424;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.books-admin__empty p {
+  max-width: 390px;
+  margin: 8px 0 20px;
+  color: #999;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.books-admin__empty-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid #deded9;
+  border-radius: 7px;
+  background: #fff;
+  color: #222;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.books-admin__empty-button:hover {
+  border-color: #cfcfca;
+  background: #f7f7f4;
+}
+
+
+/* ============================================================
+   DELETE MODAL BACKDROP
+============================================================ */
+
+.books-admin__modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(3px);
+}
+
+
+/* ============================================================
+   DELETE MODAL
+============================================================ */
+
+.books-admin__modal {
+  width: min(430px, 100%);
+  padding: 25px;
+  border: 1px solid #e2e2de;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.18);
+  animation: booksAdminModalIn 0.18s ease-out;
+}
+
+@keyframes booksAdminModalIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+}
+
+
+/* ============================================================
+   MODAL ICON
+============================================================ */
+
+.books-admin__modal-icon {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 17px;
+  border-radius: 10px;
+  background: #fcf1f1;
+  color: #a33c3c;
+}
+
+
+/* ============================================================
+   MODAL CONTENT
+============================================================ */
+
+.books-admin__modal-content h3 {
+  margin: 0;
+  color: #191919;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.books-admin__modal-content p {
+  margin: 9px 0 0;
+  color: #777;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.books-admin__modal-content strong {
+  color: #333;
+  font-weight: 700;
+}
+
+
+/* ============================================================
+   MODAL ACTIONS
+============================================================ */
+
+.books-admin__modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  margin-top: 25px;
+}
+
+.books-admin__modal-cancel,
+.books-admin__modal-delete {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 14px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.books-admin__modal-cancel {
+  border: 1px solid #deded9;
+  background: #fff;
+  color: #333;
+}
+
+.books-admin__modal-cancel:hover {
+  border-color: #cfcfca;
+  background: #f6f6f3;
+}
+
+.books-admin__modal-delete {
+  border: 1px solid #a33c3c;
+  background: #a33c3c;
+  color: #fff;
+}
+
+.books-admin__modal-delete:hover {
+  border-color: #8e3030;
+  background: #8e3030;
+}
+
+.books-admin__modal-cancel:disabled,
+.books-admin__modal-delete:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+
+/* ============================================================
+   DELETE SPINNER
+============================================================ */
+
+.books-admin__spinner {
+  width: 13px;
+  height: 13px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: booksAdminSpin 0.7s linear infinite;
+}
+
+@keyframes booksAdminSpin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 1000px) {
+
+  .books-admin {
+    padding: 30px 24px 50px;
+  }
+
+  .books-admin__table-header,
+  .books-admin__row {
+    grid-template-columns:
+      minmax(240px, 1fr)
+      120px
+      110px
+      65px;
+  }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 768px) {
+
+  .books-admin {
+    padding: 90px 16px 40px;
+  }
+
+
+  .books-admin__header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+
+
+  .books-admin__header h2 {
+    font-size: 25px;
+  }
+
+
+  .books-admin__add {
+    width: 100%;
+  }
+
+
+  .books-admin__toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+
+  .books-admin__search {
+    width: 100%;
+  }
+
+
+  .books-admin__count {
+    justify-content: space-between;
+  }
+
+
+  .books-admin__panel {
+    overflow: hidden;
+  }
+
+
+  .books-admin__table-header {
+    display: none;
+  }
+
+
+  .books-admin__row {
+    grid-template-columns: 1fr auto;
+    gap: 13px;
+    padding: 15px;
+  }
+
+
+  .books-admin__book {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+  }
+
+
+  .books-admin__price {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+
+  .books-admin__row > div:nth-child(3) {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+  }
+
+
+  .books-admin__action-cell {
+    grid-column: 2;
+    grid-row: 3;
+    justify-self: end;
+  }
+
+
+  .books-admin__menu {
+    right: 0;
+  }
+
+
+  .books-admin__modal {
+    padding: 21px;
+  }
+
+
+  .books-admin__modal-actions {
+    flex-direction: column-reverse;
+  }
+
+
+  .books-admin__modal-cancel,
+  .books-admin__modal-delete {
+    width: 100%;
+  }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 480px) {
+
+  .books-admin {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+
+
+  .books-admin__header h2 {
+    font-size: 23px;
+  }
+
+
+  .books-admin__description {
+    font-size: 12px;
+  }
+
+
+  .books-admin__row {
+    padding: 14px 12px;
+  }
+
+
+  .books-admin__cover,
+  .books-admin__cover-placeholder {
+    width: 43px;
+    height: 57px;
+  }
+
+
+  .books-admin__book {
+    gap: 10px;
+  }
+
+
+  .books-admin__book-info strong {
+    max-width: 170px;
+  }
+
+
+  .books-admin__price {
+    font-size: 11px;
+  }
+
+
+  .books-admin__empty {
+    min-height: 280px;
+    padding: 35px 18px;
+  }
+
+}
+
+/* ============================================================
+   MOBILE ACTION MENU
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+  .books-admin__action-cell {
+    position: relative;
+  }
+
+  .books-admin__menu {
+    top: auto;
+    bottom: calc(100% + 8px);
+    right: 0;
+    left: auto;
+    min-width: 150px;
+  }
+
+}

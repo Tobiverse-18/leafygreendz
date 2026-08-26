@@ -1,0 +1,304 @@
+.admin-dashboard {
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+
+/* ========================================
+   INTRO
+======================================== */
+
+.admin-dashboard__intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  margin-bottom: 30px;
+}
+
+
+.admin-dashboard__eyebrow {
+  margin: 0 0 8px;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 1.7px;
+
+  color: #999;
+}
+
+
+.admin-dashboard__intro h2 {
+  margin: 0;
+
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+
+.admin-dashboard__description {
+  margin: 8px 0 0;
+
+  color: #777;
+
+  font-size: 13px;
+}
+
+
+.admin-dashboard__date {
+  text-align: right;
+}
+
+
+.admin-dashboard__date span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+  color: #999;
+}
+
+
+.admin-dashboard__date strong {
+  font-size: 13px;
+}
+
+
+/* ========================================
+   STATS
+======================================== */
+
+.admin-dashboard__stats {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 16px;
+
+  margin-bottom: 20px;
+}
+
+
+.dashboard-stat {
+  padding: 22px;
+
+  background: #fff;
+
+  border: 1px solid #e4e4df;
+  border-radius: 10px;
+}
+
+
+.dashboard-stat__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: #888;
+}
+
+
+.dashboard-stat__top span {
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 1.4px;
+}
+
+
+.dashboard-stat strong {
+  display: block;
+
+  margin-top: 15px;
+
+  font-size: 26px;
+}
+
+
+.dashboard-stat small {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #999;
+
+  font-size: 11px;
+}
+
+
+/* ========================================
+   GRID
+======================================== */
+
+.admin-dashboard__grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 20px;
+}
+
+
+/* ========================================
+   PANELS
+======================================== */
+
+.dashboard-panel {
+  overflow: hidden;
+
+  background: #fff;
+
+  border: 1px solid #e4e4df;
+  border-radius: 10px;
+}
+
+
+.dashboard-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px 22px;
+
+  border-bottom: 1px solid #e9e9e5;
+}
+
+
+.dashboard-panel__header p {
+  margin: 0 0 5px;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+  color: #999;
+}
+
+
+.dashboard-panel__header h3 {
+  margin: 0;
+
+  font-size: 17px;
+}
+
+
+.dashboard-panel__header a {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  color: #222;
+
+  text-decoration: none;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+
+.dashboard-panel__header a:hover {
+  text-decoration: underline;
+}
+
+
+/* ========================================
+   EMPTY STATE
+======================================== */
+
+.dashboard-panel__empty {
+  min-height: 240px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  text-align: center;
+
+  color: #999;
+}
+
+
+.dashboard-panel__empty svg {
+  margin-bottom: 12px;
+}
+
+
+.dashboard-panel__empty strong {
+  color: #444;
+
+  font-size: 13px;
+}
+
+
+.dashboard-panel__empty span {
+  max-width: 280px;
+
+  margin-top: 6px;
+
+  font-size: 11px;
+
+  line-height: 1.6;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 1100px) {
+
+  .admin-dashboard__stats {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 800px) {
+
+  .admin-dashboard__intro {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+
+  .admin-dashboard__date {
+    margin-top: 15px;
+
+    text-align: left;
+  }
+
+
+  .admin-dashboard__grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 550px) {
+
+  .admin-dashboard__stats {
+    grid-template-columns: 1fr;
+  }
+
+
+  .admin-dashboard__intro h2 {
+    font-size: 26px;
+  }
+
+}

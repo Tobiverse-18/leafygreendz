@@ -261,6 +261,20 @@
 
 
 /* ========================================
+   BOOK ACTIONS
+   ======================================== */
+
+.book-details__actions {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 34px;
+}
+
+
+/* ========================================
    BUTTON
    ======================================== */
 
@@ -273,32 +287,83 @@
 
   min-height: 50px;
 
-  margin-top: 34px;
-
   padding: 0 24px;
-
-  color: #ffffff;
-
-  background: var(--color-primary);
 
   border-radius: var(--radius-sm);
 
   font-size: 13px;
   font-weight: 600;
 
+  cursor: pointer;
+
   transition:
     background-color var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast),
     transform var(--transition-fast),
     gap var(--transition-fast);
 }
 
-.book-details__button:hover {
+
+/* ========================================
+   GET THE BOOK
+   ======================================== */
+
+.book-details__button--primary {
+  color: #ffffff;
+
+  background: var(--color-primary);
+
+  border: 1px solid var(--color-primary);
+
+  text-decoration: none;
+}
+
+.book-details__button--primary:hover {
+  color: #ffffff;
+
   background: var(--color-primary-dark);
+
+  border-color: var(--color-primary-dark);
 
   gap: 12px;
 
   transform: translateY(-2px);
 }
+
+
+/* ========================================
+   ADD TO CART
+   ======================================== */
+
+.book-details__button--secondary {
+  color: var(--color-text);
+
+  background: transparent;
+
+  border: 1px solid var(--color-border);
+}
+
+.book-details__button--secondary:hover {
+  color: var(--color-primary);
+
+  background: color-mix(
+    in srgb,
+    var(--color-primary) 6%,
+    transparent
+  );
+
+  border-color: var(--color-primary);
+
+  gap: 12px;
+
+  transform: translateY(-2px);
+}
+
+
+/* ========================================
+   ACTIVE
+   ======================================== */
 
 .book-details__button:active {
   transform: translateY(0);

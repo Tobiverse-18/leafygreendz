@@ -1,15 +1,136 @@
-import { Mail, ArrowUpRight } from "lucide-react";
+import { useState } from "react";
+
+import {
+  Mail,
+  ArrowUpRight,
+} from "lucide-react";
+
 import "./Contact.css";
 
+
 function Contact() {
+
+  const [sending, setSending] =
+    useState(false);
+
+  const [success, setSuccess] =
+    useState("");
+
+  const [error, setError] =
+    useState("");
+
+
+  const handleSubmit = async (event) => {
+
+    event.preventDefault();
+
+    setSending(true);
+    setSuccess("");
+    setError("");
+
+
+    const form =
+      event.currentTarget;
+
+
+    const formData =
+      new FormData(form);
+
+
+    const payload = {
+
+      name:
+        formData.get("name"),
+
+      email:
+        formData.get("email"),
+
+      subject:
+        formData.get("subject"),
+
+      message:
+        formData.get("message"),
+
+    };
+
+
+    try {
+
+      const response =
+        await fetch(
+          "http://127.0.0.1:8000/api/contact/",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body:
+              JSON.stringify(payload),
+          }
+        );
+
+
+      const data =
+        await response.json();
+
+
+      if (!response.ok) {
+
+        console.error(
+          "Contact submission failed:",
+          data
+        );
+
+        setError(
+          data?.detail ||
+          "Unable to send your message. Please try again."
+        );
+
+        return;
+
+      }
+
+
+      setSuccess(
+        data.message ||
+        "Your message has been sent successfully."
+      );
+
+
+      form.reset();
+
+
+    } catch (error) {
+
+      console.error(
+        "Contact error:",
+        error
+      );
+
+      setError(
+        "Unable to connect to the server. Please try again."
+      );
+
+    } finally {
+
+      setSending(false);
+
+    }
+
+  };
+
+
   return (
+
     <main className="contact-page">
 
-      {/* ========================================
-          HERO
-          ======================================== */}
+      {/* HERO */}
 
       <section className="contact-hero">
+
         <div className="contact__container">
 
           <p className="contact-hero__eyebrow">
@@ -28,17 +149,18 @@ function Contact() {
           </p>
 
         </div>
+
       </section>
 
 
-      {/* ========================================
-          CONTACT CONTENT
-          ======================================== */}
+      {/* CONTACT CONTENT */}
 
       <section className="contact-content">
+
         <div className="contact__container">
 
           <div className="contact-content__grid">
+
 
             {/* CONTACT INFORMATION */}
 
@@ -64,7 +186,9 @@ function Contact() {
 
                 <div className="contact-info__item">
 
-                  <span>Email</span>
+                  <span>
+                    Email
+                  </span>
 
                   <a href="mailto:hello@leafygreendz.com">
                     hello@leafygreendz.com
@@ -81,7 +205,10 @@ function Contact() {
 
             <div className="contact-form-wrapper">
 
-              <form className="contact-form">
+              <form
+                className="contact-form"
+                onSubmit={handleSubmit}
+              >
 
                 <div className="contact-form__field">
 
@@ -151,16 +278,52 @@ function Contact() {
                 </div>
 
 
+                {/* SUCCESS */}
+
+                {success && (
+
+                  <p
+                    className="contact-form__success"
+                  >
+                    {success}
+                  </p>
+
+                )}
+
+
+                {/* ERROR */}
+
+                {error && (
+
+                  <p
+                    className="contact-form__error"
+                  >
+                    {error}
+                  </p>
+
+                )}
+
+
                 <button
                   type="submit"
                   className="contact-form__button"
+                  disabled={sending}
                 >
-                  Send Message
 
-                  <ArrowUpRight
-                    size={17}
-                    strokeWidth={1.8}
-                  />
+                  {sending
+                    ? "Sending..."
+                    : "Send Message"
+                  }
+
+                  {!sending && (
+
+                    <ArrowUpRight
+                      size={17}
+                      strokeWidth={1.8}
+                    />
+
+                  )}
+
                 </button>
 
               </form>
@@ -170,14 +333,14 @@ function Contact() {
           </div>
 
         </div>
+
       </section>
 
 
-      {/* ========================================
-          CLOSING STATEMENT
-          ======================================== */}
+      {/* CLOSING STATEMENT */}
 
       <section className="contact-closing">
+
         <div className="contact__container">
 
           <Mail
@@ -192,10 +355,14 @@ function Contact() {
           </p>
 
         </div>
+
       </section>
 
     </main>
+
   );
+
 }
+
 
 export default Contact;

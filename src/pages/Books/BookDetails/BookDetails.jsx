@@ -1,74 +1,208 @@
-import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import books from "../../../data/books";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  ShoppingBag,
+} from "lucide-react";
+
+import { useCart } from "../../../context/CartContext";
+
 import "./BookDetails.css";
 
 function BookDetails() {
   const { bookId } = useParams();
+  const navigate = useNavigate();
 
-  const book = books.find(
-    (item) => item.id === bookId
-  );
+  const { addToCart } = useCart();
 
-  if (!book) {
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+
+  /* ========================================
+     FETCH BOOK
+     ======================================== */
+
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const response = await fetch(
+          `http://127.0.0.1:8000/api/books/${bookId}/`
+        );
+
+        if (!response.ok) {
+          throw new Error("Book not found.");
+        }
+
+        const data = await response.json();
+
+        const formattedBook = {
+          id: String(data.id),
+          title: data.title,
+          subtitle: data.subtitle,
+          author: data.author,
+          category: data.category,
+          description: data.description,
+          price: Number(data.price),
+
+          coverImage: data.cover_image,
+
+          published: data.is_published,
+
+          ebookFile: data.ebook_file,
+        };
+
+        setBook(formattedBook);
+
+      } catch (error) {
+        console.error("Failed to load book:", error);
+
+        setError(
+          "We couldn't find that book."
+        );
+
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBook();
+  }, [bookId]);
+
+
+  /* ========================================
+     LOADING
+     ======================================== */
+
+  if (loading) {
+    return (
+      <main className="book-details">
+
+        <div className="book-details__container">
+
+          <p>
+            Loading book...
+          </p>
+
+        </div>
+
+      </main>
+    );
+  }
+
+
+  /* ========================================
+     BOOK NOT FOUND
+     ======================================== */
+
+  if (error || !book) {
     return (
       <main className="book-details book-details--not-found">
+
         <div className="book-details__not-found">
-          <p>BOOK NOT FOUND</p>
+
+          <p>
+            BOOK NOT FOUND
+          </p>
 
           <h1>
             We couldn't find that book.
           </h1>
 
           <Link to="/books">
-            <ArrowLeft size={17} />
+
+            <ArrowLeft
+              size={17}
+              strokeWidth={1.8}
+            />
+
             Back to Books
+
           </Link>
+
         </div>
+
       </main>
     );
   }
 
+
+  /* ========================================
+     ADD TO CART
+     ======================================== */
+
+  const handleAddToCart = () => {
+    addToCart(book);
+  };
+
+
+  /* ========================================
+     BUY NOW
+     ======================================== */
+
+  const handleBuyNow = () => {
+    navigate(`/books/${book.id}/purchase`);
+  };
+
+
   return (
     <main className="book-details">
 
-      {/* ========================================
-          BACK LINK
-          ======================================== */}
-
       <div className="book-details__container">
+
+
+        {/* ====================================
+            BACK
+            ==================================== */}
 
         <Link
           to="/books"
           className="book-details__back"
         >
+
           <ArrowLeft
             size={16}
             strokeWidth={1.8}
           />
 
           Back to Books
+
         </Link>
 
 
-        {/* ========================================
-            MAIN BOOK INFORMATION
-            ======================================== */}
+        {/* ====================================
+            CONTENT
+            ==================================== */}
 
-        <div className="book-details__main">
+        <div className="book-details__layout">
 
-          {/* COVER */}
+
+          {/* ==================================
+              COVER
+              ================================== */}
 
           <div className="book-details__cover-wrapper">
+
             {book.coverImage ? (
+
               <img
                 src={book.coverImage}
                 alt={`${book.title} book cover`}
                 className="book-details__cover"
               />
+
             ) : (
+
               <div className="book-details__cover-placeholder">
-                <span>LEAFYGREENDZ</span>
+
+                <span>
+                  LEAFYGREENDZ
+                </span>
 
                 <strong>
                   {book.title}
@@ -77,12 +211,17 @@ function BookDetails() {
                 <small>
                   {book.subtitle}
                 </small>
+
               </div>
+
             )}
+
           </div>
 
 
-          {/* INFORMATION */}
+          {/* ==================================
+              INFORMATION
+              ================================== */}
 
           <div className="book-details__content">
 
@@ -98,98 +237,80 @@ function BookDetails() {
               {book.subtitle}
             </p>
 
-            <p className="book-details__description">
-              {book.description}
+
+            {/* AUTHOR */}
+
+            <p className="book-details__author">
+              By {book.author}
             </p>
 
-            <div className="book-details__meta">
 
-              <div>
-                <span>AUTHOR</span>
-                <strong>{book.author}</strong>
-              </div>
+            {/* DESCRIPTION */}
 
-              <div>
-                <span>PRICE</span>
-                <strong>
-                  ₦{Number(book.price).toLocaleString()}
-                </strong>
-              </div>
+            <div className="book-details__description">
+
+              <p>
+                {book.description}
+              </p>
 
             </div>
 
-            <Link
-              to={`/books/${book.id}/purchase`}
-              className="book-details__button"
-            >
-              Get the Book
 
-              <ArrowUpRight
-                size={17}
-                strokeWidth={1.8}
-              />
-            </Link>
+            {/* PRICE */}
+
+            <div className="book-details__price">
+
+              <span>
+                Price
+              </span>
+
+              <strong>
+                ₦{book.price.toLocaleString()}
+              </strong>
+
+            </div>
+
+
+            {/* ACTIONS */}
+
+            <div className="book-details__actions">
+
+              <button
+                type="button"
+                className="book-details__cart-button"
+                onClick={handleAddToCart}
+              >
+
+                <ShoppingBag
+                  size={17}
+                  strokeWidth={1.8}
+                />
+
+                Add to Cart
+
+              </button>
+
+
+              <button
+                type="button"
+                className="book-details__buy-button"
+                onClick={handleBuyNow}
+              >
+
+                Buy Now
+
+                <ArrowUpRight
+                  size={17}
+                  strokeWidth={1.8}
+                />
+
+              </button>
+
+            </div>
 
           </div>
 
         </div>
-
-
-        {/* ========================================
-            DESCRIPTION SECTION
-            ======================================== */}
-
-        <section className="book-details__about">
-
-          <div className="book-details__section-heading">
-            <p>ABOUT THE BOOK</p>
-
-            <span />
-          </div>
-
-          <div className="book-details__about-content">
-
-            <h2>
-              Knowledge becomes valuable
-              when you put it into action.
-            </h2>
-
-            <p>
-              {book.description}
-            </p>
-
-          </div>
-
-        </section>
-
-
-        {/* ========================================
-            BOTTOM CTA
-            ======================================== */}
-
-        <section className="book-details__cta">
-
-          <p>
-            READY TO START?
-          </p>
-
-          <h2>
-            Turn knowledge into action.
-          </h2>
-
-          <Link
-            to={`/books/${book.id}/purchase`}
-            className="book-details__button"
-          >
-            Get the Book
-
-            <ArrowUpRight
-              size={17}
-              strokeWidth={1.8}
-            />
-          </Link>
-
-        </section>
 
       </div>
 

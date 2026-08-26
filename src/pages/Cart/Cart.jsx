@@ -1,21 +1,19 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Trash2 } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Trash2,
+} from "lucide-react";
+import { useCart } from "../../context/CartContext";
 import "./Cart.css";
 
 function Cart() {
-  /*
-    Temporary frontend cart data.
-
-    Later this will come from our cart state/backend.
-    We're keeping the structure compatible with that future setup.
-  */
-
-  const cartItems = [];
-
-  const subtotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  const {
+    cartItems,
+    removeFromCart,
+    updateQuantity,
+    cartTotal,
+  } = useCart();
 
   return (
     <main className="cart-page">
@@ -137,7 +135,17 @@ function Cart() {
                         </span>
 
                         <div className="cart-item__quantity">
-                          <button type="button">
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              updateQuantity(
+                                item.id,
+                                item.quantity - 1
+                              )
+                            }
+                            aria-label={`Decrease quantity of ${item.title}`}
+                          >
                             −
                           </button>
 
@@ -145,9 +153,19 @@ function Cart() {
                             {item.quantity}
                           </span>
 
-                          <button type="button">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              updateQuantity(
+                                item.id,
+                                item.quantity + 1
+                              )
+                            }
+                            aria-label={`Increase quantity of ${item.title}`}
+                          >
                             +
                           </button>
+
                         </div>
 
                       </div>
@@ -158,12 +176,17 @@ function Cart() {
                     <div className="cart-item__side">
 
                       <strong>
-                        ₦{(item.price * item.quantity).toLocaleString()}
+                        ₦{(
+                          item.price * item.quantity
+                        ).toLocaleString()}
                       </strong>
 
                       <button
                         type="button"
                         className="cart-item__remove"
+                        onClick={() =>
+                          removeFromCart(item.id)
+                        }
                         aria-label={`Remove ${item.title}`}
                       >
                         <Trash2
@@ -190,21 +213,29 @@ function Cart() {
                 </p>
 
                 <div className="cart-summary__row">
-                  <span>Subtotal</span>
+
+                  <span>
+                    Subtotal
+                  </span>
 
                   <strong>
-                    ₦{subtotal.toLocaleString()}
+                    ₦{cartTotal.toLocaleString()}
                   </strong>
+
                 </div>
 
                 <div className="cart-summary__divider" />
 
                 <div className="cart-summary__total">
-                  <span>Total</span>
+
+                  <span>
+                    Total
+                  </span>
 
                   <strong>
-                    ₦{subtotal.toLocaleString()}
+                    ₦{cartTotal.toLocaleString()}
                   </strong>
+
                 </div>
 
                 <Link
