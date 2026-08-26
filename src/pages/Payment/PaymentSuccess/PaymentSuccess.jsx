@@ -109,7 +109,7 @@ function PaymentSuccess() {
            ============================== */
 
         const response = await fetch(
-          `http://127.0.0.1:8000/api/payments/verify/?reference=${encodeURIComponent(
+          `${import.meta.env.VITE_API_URL}/api/payments/verify/?reference=${encodeURIComponent(
             reference
           )}`,
           {
@@ -415,7 +415,7 @@ function PaymentSuccess() {
 
   const downloadUrl =
     downloadToken
-      ? `http://127.0.0.1:8000/api/orders/download/${downloadToken}/`
+      ? `${import.meta.env.VITE_API_URL}/api/orders/download/${downloadToken}/`
       : null;
 
 

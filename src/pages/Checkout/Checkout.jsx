@@ -182,7 +182,7 @@ function Checkout() {
          ================================== */
 
       const response = await fetch(
-        "http://127.0.0.1:8000/api/orders/",
+        `${import.meta.env.VITE_API_URL}/api/orders/`,
         {
           method: "POST",
 
