@@ -1,18 +1,17 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate
+from django.contrib.auth import logout
 from django.middleware.csrf import get_token
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-from rest_framework.decorators import (
-    api_view,
-    permission_classes,
-)
-from rest_framework.permissions import AllowAny, IsAdminUser
-from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
 
 
 # ============================================================
-# CSRF
+# CSRF TOKEN
 # ============================================================
 
 @ensure_csrf_cookie
@@ -31,7 +30,7 @@ def admin_csrf(request):
 
 
 # ============================================================
-# LOGIN
+# ADMIN LOGIN
 # ============================================================
 
 @api_view(["POST"])
@@ -41,6 +40,10 @@ def admin_login(request):
     username = request.data.get("username")
     password = request.data.get("password")
 
+    # --------------------------------------------------------
+    # VALIDATE INPUT
+    # --------------------------------------------------------
+
     if not username or not password:
 
         return Response(
@@ -49,6 +52,10 @@ def admin_login(request):
             },
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+    # --------------------------------------------------------
+    # AUTHENTICATE USER
+    # --------------------------------------------------------
 
     user = authenticate(
         request,
@@ -65,6 +72,10 @@ def admin_login(request):
             status=status.HTTP_401_UNAUTHORIZED,
         )
 
+    # --------------------------------------------------------
+    # CHECK ADMIN ACCESS
+    # --------------------------------------------------------
+
     if not user.is_staff:
 
         return Response(
@@ -74,24 +85,51 @@ def admin_login(request):
             status=status.HTTP_403_FORBIDDEN,
         )
 
-    login(request, user)
+    # --------------------------------------------------------
+    # GET OR CREATE TOKEN
+    # --------------------------------------------------------
+
+    token, created = Token.objects.get_or_create(
+        user=user
+    )
+
+    # --------------------------------------------------------
+    # RESPONSE
+    # --------------------------------------------------------
 
     return Response(
         {
             "message": "Login successful.",
             "username": user.username,
+            "token": token.key,
         },
         status=status.HTTP_200_OK,
     )
 
 
 # ============================================================
-# LOGOUT
+# ADMIN LOGOUT
 # ============================================================
 
 @api_view(["POST"])
-@permission_classes([IsAdminUser])
+@permission_classes([IsAuthenticated])
 def admin_logout(request):
+
+    # --------------------------------------------------------
+    # DELETE TOKEN
+    # --------------------------------------------------------
+
+    try:
+
+        request.user.auth_token.delete()
+
+    except Token.DoesNotExist:
+
+        pass
+
+    # --------------------------------------------------------
+    # ALSO CLEAR DJANGO SESSION IF ONE EXISTS
+    # --------------------------------------------------------
 
     logout(request)
 
