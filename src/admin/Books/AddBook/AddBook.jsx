@@ -13,6 +13,13 @@ import { useNavigate } from "react-router-dom";
 import "./AddBook.css";
 
 
+const API_URL =
+  `${import.meta.env.VITE_API_URL}/api`;
+
+const ADMIN_TOKEN_KEY =
+  "leafygreendz-admin-token";
+
+
 function AddBook() {
 
   const navigate = useNavigate();
@@ -117,6 +124,7 @@ function AddBook() {
 
     setError("");
 
+
     if (!formData.title.trim()) {
 
       setError("Please enter a book title.");
@@ -125,9 +133,29 @@ function AddBook() {
 
     }
 
+
     if (!formData.price) {
 
       setError("Please enter the book price.");
+
+      return;
+
+    }
+
+
+    const token =
+      localStorage.getItem(
+        ADMIN_TOKEN_KEY
+      );
+
+
+    if (!token) {
+
+      setError(
+        "Your admin session has expired. Please log in again."
+      );
+
+      navigate("/admin/login");
 
       return;
 
@@ -139,31 +167,37 @@ function AddBook() {
       setSaving(true);
 
 
-      const data = new FormData();
+      // ========================================================
+      // FORM DATA
+      // ========================================================
+
+      const data =
+        new FormData();
+
 
       data.append(
         "title",
-        formData.title
+        formData.title.trim()
       );
 
       data.append(
         "subtitle",
-        formData.subtitle
+        formData.subtitle.trim()
       );
 
       data.append(
         "author",
-        formData.author
+        formData.author.trim()
       );
 
       data.append(
         "category",
-        formData.category
+        formData.category.trim()
       );
 
       data.append(
         "description",
-        formData.description
+        formData.description.trim()
       );
 
       data.append(
@@ -197,35 +231,100 @@ function AddBook() {
       }
 
 
-      const response = await fetch(
-        fetch(`${import.meta.env.VITE_API_URL}/api/...`),
-        {
-          method: "POST",
-          body: data,
-        }
+      console.log(
+        "CREATING BOOK..."
+      );
+
+      console.log(
+        "BOOK API URL:",
+        `${API_URL}/books/`
       );
 
 
-      if (!response.ok) {
+      // ========================================================
+      // CREATE BOOK
+      // ========================================================
 
-        const responseData =
-          await response.json().catch(
-            () => null
-          );
+      const response =
+        await fetch(
+          `${API_URL}/books/`,
+          {
+            method: "POST",
 
-        console.error(
-          "Create book error:",
-          responseData
+            headers: {
+              Accept:
+                "application/json",
+
+              Authorization:
+                `Token ${token}`,
+            },
+
+            body: data,
+          }
+        );
+
+
+      const responseData =
+        await response
+          .json()
+          .catch(() => null);
+
+
+      console.log(
+        "CREATE BOOK RESPONSE:",
+        response.status,
+        responseData
+      );
+
+
+      // ========================================================
+      // AUTH ERROR
+      // ========================================================
+
+      if (
+        response.status === 401 ||
+        response.status === 403
+      ) {
+
+        localStorage.removeItem(
+          ADMIN_TOKEN_KEY
         );
 
         throw new Error(
+          responseData?.detail ||
+          "Your admin session has expired. Please log in again."
+        );
+
+      }
+
+
+      // ========================================================
+      // OTHER ERROR
+      // ========================================================
+
+      if (!response.ok) {
+
+        throw new Error(
+          responseData?.detail ||
+          responseData?.error ||
           "Failed to create book."
         );
 
       }
 
 
-        navigate("/admin/books");
+      // ========================================================
+      // SUCCESS
+      // ========================================================
+
+      console.log(
+        "BOOK CREATED SUCCESSFULLY:",
+        responseData
+      );
+
+
+      navigate("/admin/books");
+
 
     } catch (error) {
 
@@ -234,9 +333,12 @@ function AddBook() {
         error
       );
 
+
       setError(
+        error.message ||
         "Unable to create the book. Please try again."
       );
+
 
     } finally {
 
@@ -638,6 +740,7 @@ function AddBook() {
                 {ebookFile ? (
 
                   <>
+
                     <strong>
                       {ebookFile.name}
                     </strong>
@@ -645,11 +748,13 @@ function AddBook() {
                     <span>
                       Click to replace file
                     </span>
+
                   </>
 
                 ) : (
 
                   <>
+
                     <strong>
                       Upload ebook
                     </strong>
@@ -657,6 +762,7 @@ function AddBook() {
                     <span>
                       PDF or EPUB
                     </span>
+
                   </>
 
                 )}
@@ -709,6 +815,7 @@ function AddBook() {
 
           </div>
 
+
           <div className="add-book__publish-status">
 
             <span
@@ -753,7 +860,7 @@ function AddBook() {
             type="button"
             className="add-book__cancel"
             onClick={() =>
-              navigate("/admin/dashboard/books")
+              navigate("/admin/books")
             }
             disabled={saving}
           >
