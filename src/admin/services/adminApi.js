@@ -3,24 +3,113 @@ const API_BASE_URL =
 
 
 // ============================================================
-// HELPER — PARSE RESPONSE
+// ADMIN TOKEN
 // ============================================================
 
-async function parseResponse(response) {
+const ADMIN_TOKEN_KEY =
+  "leafygreendz-admin-token";
+
+
+// ============================================================
+// GET TOKEN
+// ============================================================
+
+function getAdminToken() {
+
+  return localStorage.getItem(
+    ADMIN_TOKEN_KEY
+  );
+
+}
+
+
+// ============================================================
+// SAVE TOKEN
+// ============================================================
+
+function saveAdminToken(token) {
+
+  localStorage.setItem(
+    ADMIN_TOKEN_KEY,
+    token
+  );
+
+}
+
+
+// ============================================================
+// CLEAR TOKEN
+// ============================================================
+
+function clearAdminToken() {
+
+  localStorage.removeItem(
+    ADMIN_TOKEN_KEY
+  );
+
+}
+
+
+// ============================================================
+// ADMIN HEADERS
+// ============================================================
+
+function getAdminHeaders() {
+
+  const token =
+    getAdminToken();
+
+
+  if (!token) {
+
+    throw new Error(
+      "You are not authenticated."
+    );
+
+  }
+
+
+  return {
+
+    Accept:
+      "application/json",
+
+    Authorization:
+      `Token ${token}`,
+
+  };
+
+}
+
+
+// ============================================================
+// PARSE RESPONSE
+// ============================================================
+
+async function parseResponse(
+  response
+) {
 
   const contentType =
-    response.headers.get("content-type");
+    response.headers.get(
+      "content-type"
+    );
+
 
   if (
     contentType &&
-    contentType.includes("application/json")
+    contentType.includes(
+      "application/json"
+    )
   ) {
 
     return await response.json();
 
   }
 
+
   return null;
+
 }
 
 
@@ -30,22 +119,28 @@ async function parseResponse(response) {
 
 async function getCsrfToken() {
 
-  const response = await fetch(
-    `${API_BASE_URL}/admin/auth/csrf/`,
-    {
-      method: "GET",
+  const response =
+    await fetch(
+      `${API_BASE_URL}/admin/auth/csrf/`,
+      {
+        method: "GET",
 
-      credentials: "include",
+        credentials:
+          "include",
 
-      headers: {
-        Accept: "application/json",
-      },
-    }
-  );
+        headers: {
+          Accept:
+            "application/json",
+        },
+
+      }
+    );
 
 
   const data =
-    await parseResponse(response);
+    await parseResponse(
+      response
+    );
 
 
   if (!response.ok) {
@@ -68,6 +163,7 @@ async function getCsrfToken() {
 
 
   return data.csrfToken;
+
 }
 
 
@@ -85,6 +181,10 @@ export async function adminLogin(
   );
 
 
+  // ==========================================================
+  // GET CSRF
+  // ==========================================================
+
   const csrfToken =
     await getCsrfToken();
 
@@ -94,15 +194,21 @@ export async function adminLogin(
   );
 
 
+  // ==========================================================
+  // LOGIN
+  // ==========================================================
+
   const response =
     await fetch(
       `${API_BASE_URL}/admin/auth/login/`,
       {
         method: "POST",
 
-        credentials: "include",
+        credentials:
+          "include",
 
         headers: {
+
           "Content-Type":
             "application/json",
 
@@ -111,18 +217,23 @@ export async function adminLogin(
 
           "X-CSRFToken":
             csrfToken,
+
         },
 
-        body: JSON.stringify({
-          username,
-          password,
-        }),
+        body:
+          JSON.stringify({
+            username,
+            password,
+          }),
+
       }
     );
 
 
   const data =
-    await parseResponse(response);
+    await parseResponse(
+      response
+    );
 
 
   console.log(
@@ -131,6 +242,10 @@ export async function adminLogin(
     data
   );
 
+
+  // ==========================================================
+  // HANDLE LOGIN ERROR
+  // ==========================================================
 
   if (!response.ok) {
 
@@ -142,7 +257,35 @@ export async function adminLogin(
   }
 
 
+  // ==========================================================
+  // CHECK TOKEN
+  // ==========================================================
+
+  if (!data?.token) {
+
+    throw new Error(
+      "Login succeeded but Django did not return an authentication token."
+    );
+
+  }
+
+
+  // ==========================================================
+  // SAVE TOKEN
+  // ==========================================================
+
+  saveAdminToken(
+    data.token
+  );
+
+
+  console.log(
+    "ADMIN TOKEN SAVED"
+  );
+
+
   return data;
+
 }
 
 
@@ -163,18 +306,17 @@ export async function getAdminDashboard() {
       {
         method: "GET",
 
-        credentials: "include",
+        headers:
+          getAdminHeaders(),
 
-        headers: {
-          Accept:
-            "application/json",
-        },
       }
     );
 
 
   const data =
-    await parseResponse(response);
+    await parseResponse(
+      response
+    );
 
 
   console.log(
@@ -182,6 +324,20 @@ export async function getAdminDashboard() {
     response.status,
     data
   );
+
+
+  // ==========================================================
+  // AUTH ERROR
+  // ==========================================================
+
+  if (
+    response.status === 401 ||
+    response.status === 403
+  ) {
+
+    clearAdminToken();
+
+  }
 
 
   if (!response.ok) {
@@ -195,6 +351,7 @@ export async function getAdminDashboard() {
 
 
   return data;
+
 }
 
 
@@ -209,54 +366,68 @@ export async function adminLogout() {
   );
 
 
-  const csrfToken =
-    await getCsrfToken();
+  const token =
+    getAdminToken();
 
 
-  const response =
-    await fetch(
-      `${API_BASE_URL}/admin/auth/logout/`,
-      {
-        method: "POST",
+  if (!token) {
 
-        credentials: "include",
-
-        headers: {
-          "Content-Type":
-            "application/json",
-
-          Accept:
-            "application/json",
-
-          "X-CSRFToken":
-            csrfToken,
-        },
-      }
-    );
-
-
-  const data =
-    await parseResponse(response);
-
-
-  console.log(
-    "ADMIN LOGOUT RESPONSE:",
-    response.status,
-    data
-  );
-
-
-  if (!response.ok) {
-
-    throw new Error(
-      data?.detail ||
-      "Logout failed."
-    );
+    return true;
 
   }
 
 
-  return data;
+  try {
+
+    const response =
+      await fetch(
+        `${API_BASE_URL}/admin/auth/logout/`,
+        {
+          method: "POST",
+
+          headers: {
+
+            Accept:
+              "application/json",
+
+            Authorization:
+              `Token ${token}`,
+
+          },
+
+        }
+      );
+
+
+    const data =
+      await parseResponse(
+        response
+      );
+
+
+    console.log(
+      "ADMIN LOGOUT RESPONSE:",
+      response.status,
+      data
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "ADMIN LOGOUT ERROR:",
+      error
+    );
+
+  } finally {
+
+    clearAdminToken();
+
+  }
+
+
+  return true;
+
 }
 
 
@@ -272,18 +443,27 @@ export async function getAdminBooks() {
       {
         method: "GET",
 
-        credentials: "include",
+        headers:
+          getAdminHeaders(),
 
-        headers: {
-          Accept:
-            "application/json",
-        },
       }
     );
 
 
   const data =
-    await parseResponse(response);
+    await parseResponse(
+      response
+    );
+
+
+  if (
+    response.status === 401 ||
+    response.status === 403
+  ) {
+
+    clearAdminToken();
+
+  }
 
 
   if (!response.ok) {
@@ -299,6 +479,7 @@ export async function getAdminBooks() {
   return Array.isArray(data)
     ? data
     : data?.results || [];
+
 }
 
 
@@ -320,24 +501,39 @@ export async function deleteAdminBook(
       {
         method: "DELETE",
 
-        credentials: "include",
+        credentials:
+          "include",
 
         headers: {
-          Accept:
-            "application/json",
+
+          ...getAdminHeaders(),
 
           "X-CSRFToken":
             csrfToken,
+
         },
+
       }
     );
 
 
+  const data =
+    await parseResponse(
+      response
+    );
+
+
+  if (
+    response.status === 401 ||
+    response.status === 403
+  ) {
+
+    clearAdminToken();
+
+  }
+
+
   if (!response.ok) {
-
-    const data =
-      await parseResponse(response);
-
 
     throw new Error(
       data?.detail ||
@@ -348,6 +544,7 @@ export async function deleteAdminBook(
 
 
   return true;
+
 }
 
 
@@ -363,18 +560,27 @@ export async function getAdminOrders() {
       {
         method: "GET",
 
-        credentials: "include",
+        headers:
+          getAdminHeaders(),
 
-        headers: {
-          Accept:
-            "application/json",
-        },
       }
     );
 
 
   const data =
-    await parseResponse(response);
+    await parseResponse(
+      response
+    );
+
+
+  if (
+    response.status === 401 ||
+    response.status === 403
+  ) {
+
+    clearAdminToken();
+
+  }
 
 
   if (!response.ok) {
@@ -390,6 +596,7 @@ export async function getAdminOrders() {
   return Array.isArray(data)
     ? data
     : data?.results || [];
+
 }
 
 
@@ -405,18 +612,27 @@ export async function getAdminMessages() {
       {
         method: "GET",
 
-        credentials: "include",
+        headers:
+          getAdminHeaders(),
 
-        headers: {
-          Accept:
-            "application/json",
-        },
       }
     );
 
 
   const data =
-    await parseResponse(response);
+    await parseResponse(
+      response
+    );
+
+
+  if (
+    response.status === 401 ||
+    response.status === 403
+  ) {
+
+    clearAdminToken();
+
+  }
 
 
   if (!response.ok) {
@@ -432,6 +648,7 @@ export async function getAdminMessages() {
   return Array.isArray(data)
     ? data
     : data?.results || [];
+
 }
 
 
@@ -449,18 +666,27 @@ export async function getAdminMessage(
       {
         method: "GET",
 
-        credentials: "include",
+        headers:
+          getAdminHeaders(),
 
-        headers: {
-          Accept:
-            "application/json",
-        },
       }
     );
 
 
   const data =
-    await parseResponse(response);
+    await parseResponse(
+      response
+    );
+
+
+  if (
+    response.status === 401 ||
+    response.status === 403
+  ) {
+
+    clearAdminToken();
+
+  }
 
 
   if (!response.ok) {
@@ -474,6 +700,7 @@ export async function getAdminMessage(
 
 
   return data;
+
 }
 
 
@@ -496,27 +723,44 @@ export async function updateAdminMessage(
       {
         method: "PATCH",
 
-        credentials: "include",
+        credentials:
+          "include",
 
         headers: {
-          "Content-Type":
-            "application/json",
 
-          Accept:
+          ...getAdminHeaders(),
+
+          "Content-Type":
             "application/json",
 
           "X-CSRFToken":
             csrfToken,
+
         },
 
         body:
-          JSON.stringify(updates),
+          JSON.stringify(
+            updates
+          ),
+
       }
     );
 
 
   const data =
-    await parseResponse(response);
+    await parseResponse(
+      response
+    );
+
+
+  if (
+    response.status === 401 ||
+    response.status === 403
+  ) {
+
+    clearAdminToken();
+
+  }
 
 
   if (!response.ok) {
@@ -530,6 +774,7 @@ export async function updateAdminMessage(
 
 
   return data;
+
 }
 
 
@@ -551,24 +796,39 @@ export async function deleteAdminMessage(
       {
         method: "DELETE",
 
-        credentials: "include",
+        credentials:
+          "include",
 
         headers: {
-          Accept:
-            "application/json",
+
+          ...getAdminHeaders(),
 
           "X-CSRFToken":
             csrfToken,
+
         },
+
       }
     );
 
 
+  const data =
+    await parseResponse(
+      response
+    );
+
+
+  if (
+    response.status === 401 ||
+    response.status === 403
+  ) {
+
+    clearAdminToken();
+
+  }
+
+
   if (!response.ok) {
-
-    const data =
-      await parseResponse(response);
-
 
     throw new Error(
       data?.detail ||
@@ -579,4 +839,5 @@ export async function deleteAdminMessage(
 
 
   return true;
+
 }
